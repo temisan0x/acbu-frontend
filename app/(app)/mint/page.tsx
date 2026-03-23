@@ -23,6 +23,11 @@ import * as mintApi from '@/lib/api/mint';
 import type { RatesResponse } from '@/types/api';
 
 const BALANCE_PLACEHOLDER = '—';
+const BURN_DESTINATION_LABELS: Record<string, string> = {
+  bank: 'bank transfer',
+  mobile: 'mobile money',
+  wallet: 'digital wallet',
+};
 
 export default function MintPage() {
   const router = useRouter();
@@ -38,6 +43,9 @@ export default function MintPage() {
   const [mintError, setMintError] = useState('');
   const [txId, setTxId] = useState<string | null>(null);
   const [executing, setExecuting] = useState(false);
+  const burnReceiveText = burnAmount
+    ? `Local currency payout to ${BURN_DESTINATION_LABELS[burnDestination] ?? 'selected destination'}`
+    : '—';
 
   useEffect(() => {
     if (activeTab !== 'rates') return;
@@ -153,7 +161,7 @@ export default function MintPage() {
                 <p className="text-xs text-muted-foreground mt-2">Available: AFK {BALANCE_PLACEHOLDER}</p>
               </div>
               <Card className="border-border bg-muted p-3 mt-4">
-                <div className="flex justify-between text-sm mb-2"><span className="text-muted-foreground">You'll receive</span><span className="font-medium text-foreground">{burnAmount ? `Local currency (see /burn for details)` : '—'}</span></div>
+                <div className="flex justify-between text-sm mb-2"><span className="text-muted-foreground">You'll receive</span><span className="font-medium text-foreground">{burnReceiveText}</span></div>
                 <div className="flex justify-between text-sm"><span className="text-muted-foreground">Processing Fee</span><span className="font-medium text-foreground">AFK 1.00</span></div>
               </Card>
               <Button onClick={handleBurnConfirm} disabled={!burnAmount || parseFloat(burnAmount) <= 0} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-6">
