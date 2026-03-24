@@ -66,6 +66,7 @@ export default function BurnPage() {
         <div className="px-4 py-3 flex items-center gap-3">
           <Link
             href="/mint"
+            aria-label="Go back to Mint page"
             className="flex items-center justify-center min-w-[44px] min-h-[44px] -m-2"
           >
             <ArrowLeft className="w-5 h-5 text-primary" />
@@ -124,7 +125,9 @@ export default function BurnPage() {
                 maxLength={20}
                 placeholder="1234567890"
                 value={accountNumber}
-                onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ""))}
+                onChange={(e) =>
+                  setAccountNumber(e.target.value.replace(/\D/g, ""))
+                }
                 className="border-border"
               />
             </div>
